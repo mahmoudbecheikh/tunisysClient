@@ -6,7 +6,7 @@ import { Ticket } from 'src/models/ticket';
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService {
+export class FormService {
 
   constructor(private http : HttpClient) { }
 
@@ -14,7 +14,11 @@ export class TicketService {
 
 
   addTicket(ticket: Ticket) : Observable<any> {
-    return this.http.post(this.baseURL, ticket);
+    return this.http.post('http://localhost:3000/tickets', ticket);
+  }
+
+  listDepatemtent():Observable<any>{
+    return this.http.get('http://localhost:3000/departements');
   }
 
 }

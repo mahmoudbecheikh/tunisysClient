@@ -1,11 +1,12 @@
 export class Ticket {
-    subject?: string;
+    sujet?: string;
     description? : string ;
-    manual?: string;
-    clientEmail?: string;
-    clientFullName?: number;
-    clientTel?: number;
-
+    manuel?: string;
+    emailClient?: string;
+    nomClient?: number;
+    tel?: number;
+    adresse?: string;
+    siteWeb?: string;
 
 }
 

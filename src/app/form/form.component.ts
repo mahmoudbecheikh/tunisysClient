@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TicketService } from '../services/ticket.service';
+import { Departement } from 'src/models/departement';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'app-form',
@@ -10,63 +11,84 @@ import { TicketService } from '../services/ticket.service';
 })
 export class FormComponent implements OnInit {
 
-  service? : string ; 
+  departements : Departement[]= []
   myForm: FormGroup = new FormGroup({});
-  subject: FormControl = new FormControl('', [
+
+  sujet: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
     Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
   ]);
+  departement : FormControl = new FormControl('',Validators.required)
   description: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(15),
     Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
   ]);
 
-  clientEmail: FormControl = new FormControl('', [
+  emailClient: FormControl = new FormControl('', [
     Validators.required,
     Validators.pattern(".*com$")
   ]);
-  clientFullName: FormControl = new FormControl('', [
+  nomClient: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
     Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
   ]);
 
-  clientTel: FormControl = new FormControl('', [
+  tel: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
     Validators.maxLength(8),
     Validators.pattern('^[234579][0-9]*$'),
   ]);
 
-  manual: FormControl = new FormControl('Client');
+  siteWeb: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
+  ]);
 
-  constructor(private ticketService : TicketService,private router : Router,  private activateRoute: ActivatedRoute) { }
+  adresse: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
+  ]);
+
+  manuel: FormControl = new FormControl('Client');
+
+  constructor(private formService : FormService,private router : Router,  private activateRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.service = this.activateRoute.snapshot.params['service'] ;
     this.createForm();
+    this.formService.listDepatemtent().subscribe(res=>{
+      this.departements = res as Departement []
+    })
   }
 
   createForm() {
     this.myForm = new FormGroup({
-      subject: this.subject,
-      clientEmail: this.clientEmail,
-      clientFullName: this.clientFullName,
-      clientTel: this.clientTel,
+      sujet: this.sujet,
+      departement : this.departement ,
+      emailClient: this.emailClient,
+      nomClient: this.nomClient,
+      tel: this.tel,
       description: this.description,
-      manual: this.manual
-
+      manuel: this.manuel,
+      siteWeb: this.siteWeb,
+      adresse: this.adresse
     });
   }
-  
-  returnToList() {
-    this.router.navigate(['/']);
-  }
-  onSubmit() {
-    this.ticketService.addTicket(this.myForm.value).subscribe((res) => {
-      this.router.navigate(['/']);
+
+  envoyer() {
+    this.formService.addTicket(this.myForm.value).subscribe((res) => {
+      Object.keys(this.myForm.controls).forEach((key) => {
+        let formC = this.myForm.get(key);
+        if (formC) {
+          formC.setValue('');
+          formC.setErrors(null);
+        }
+      });
     });
   }
 

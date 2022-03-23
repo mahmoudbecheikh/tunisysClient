@@ -1,78 +1,84 @@
-welcome to {{service}}
+<app-header></app-header>
 
-
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+<div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <input type="text" formControlName="subject" placeholder="Subject *" class="col-md form-control"
-                    name="subject" id="subject">
-                <small *ngIf=" subject.invalid && subject.touched && subject.dirty">Subject incorrect</small>
-            </div>
 
-            <div class="form-group">
-                <textarea type="text" formControlName="description" placeholder="description *" class="form-control"
-                    name="description" id="description"> </textarea>
-                <small *ngIf=" description.invalid && description.touched && description.dirty">Description
-                    incorrect</small>
-            </div>
-
-            <div class="form-group">
-                <input type="text" formControlName="clientFullName" placeholder="Nom complet *" class="form-control"
-                    name="clientFullName" id="clientFullName">
-                <small *ngIf=" clientFullName.invalid && clientFullName.touched && clientFullName.dirty">Nom complet
-                    incorrect</small>
-            </div>
-
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <input type="email" formControlName="clientEmail" placeholder="Email *" class="form-control"
-                    name="clientEmail" id="email">
-                <small *ngIf=" clientEmail.invalid && clientEmail.touched && clientEmail.dirty">Email incorrect</small>
-            </div>
-            <div class="form-group">
-                <input type="text" formControlName="clientTel" placeholder="Tel *" class="form-control" name="clientTel"
-                    id="clientTel">
-                <small *ngIf=" clientTel.invalid && clientTel.touched && clientTel.dirty">Tel incorrect</small>
-            </div>
-
-
-            <!-- ***********  maintenance *************** -->
-            <div *ngIf="service =='maintenance'">
-
-                <p>maintenance</p>
-
-            </div>
-
-            <!-- ***********  infra *************** -->
-
-            <div *ngIf="service =='infrastructure'">
-
-                <p>infra</p>
-
-            </div>
-            <!-- ***********  reseau *************** -->
-            <div *ngIf="service =='reseau'">
-
-                <p>reseau</p>
-
-            </div>
-
-            <!-- ***********  it *************** -->
-            <div *ngIf="service =='it'">
-
-                <p>it</p>
-
-            </div>
-
-            <div style="margin: 15px -120px;">
-                <input class="btn btn-dark" style="margin: 5px; width: 100px;" [disabled]="myForm.invalid"
-                    value="Ajouter" type="submit" />
-                <div class="btn btn-dark" style="margin: 5px; width: 100px;" (click)="returnToList()">Annuler</div>
-            </div>
-
+        <div class="col-md-4 form">
+            
         </div>
 
+        <div class="col-md-8">
+
+
+
+            <form [formGroup]="myForm" (ngSubmit)="envoyer()">
+                <div class="row">
+
+                    <div class="form-group">
+                        <select class="form-control" formControlName="departement">
+                            <option value="" disabled hidden selected>Sélectionnez un departement</option>
+                            <option *ngFor="let dep of departements" value="{{dep._id}}">{{dep.nom}}</option>
+                        </select>
+                        <small *ngIf=" departement.invalid && departement.touched && departement.dirty">Rôle
+                            incorrect</small>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" formControlName="sujet" placeholder="sujet *" class="col-md form-control"
+                                name="sujet" id="sujet">
+                            <small *ngIf=" sujet.invalid && sujet.touched && sujet.dirty">sujet incorrect</small>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" formControlName="nomClient" placeholder="Nom complet *"
+                                class="form-control" name="nomClient" id="nomClient">
+                            <small *ngIf=" nomClient.invalid && nomClient.touched && nomClient.dirty">Nom
+                                complet
+                                incorrect</small>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" formControlName="siteWeb" placeholder="siteWeb *" class="form-control"
+                                name="siteWeb" id="siteWeb" />
+                            <small *ngIf=" siteWeb.invalid && siteWeb.touched && siteWeb.dirty">Site Web
+                                incorrect</small>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 col-left">
+                        <div class="form-group">
+                            <input type="email" formControlName="emailClient" placeholder="Email *" class="form-control"
+                                name="emailClient" id="email">
+                            <small *ngIf=" emailClient.invalid && emailClient.touched && emailClient.dirty">Email
+                                incorrect</small>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" formControlName="tel" placeholder="Tel *" class="form-control" name="tel"
+                                id="tel">
+                            <small *ngIf=" tel.invalid && tel.touched && tel.dirty">Tel incorrect</small>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" formControlName="adresse" placeholder="adresse " class="form-control"
+                                name="adresse" id="adresse" />
+                            <small *ngIf=" adresse.invalid && adresse.touched && adresse.dirty">Adresse
+                                incorrect</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea type="text" formControlName="description" placeholder="description *"
+                            class="form-control" name="description" id="description"> </textarea>
+                        <small *ngIf=" description.invalid && description.touched && description.dirty">Description
+                            incorrect</small>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-dark" [disabled]="myForm.invalid" value="Envoyer" type="submit" />
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
+
+<app-footer></app-footer>
