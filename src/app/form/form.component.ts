@@ -7,11 +7,10 @@ import { FormService } from '../services/form.service';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit {
-
-  departements : Departement[]= []
+  departements: Departement[] = [];
   myForm: FormGroup = new FormGroup({});
 
   sujet: FormControl = new FormControl('', [
@@ -19,7 +18,7 @@ export class FormComponent implements OnInit {
     Validators.minLength(6),
     Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
   ]);
-  departement : FormControl = new FormControl('',Validators.required)
+  departement: FormControl = new FormControl('', Validators.required);
   description: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(15),
@@ -28,7 +27,7 @@ export class FormComponent implements OnInit {
 
   emailClient: FormControl = new FormControl('', [
     Validators.required,
-    Validators.pattern(".*com$")
+    Validators.pattern('.*com$'),
   ]);
   nomClient: FormControl = new FormControl('', [
     Validators.required,
@@ -55,28 +54,34 @@ export class FormComponent implements OnInit {
     Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
   ]);
 
-  manuel: FormControl = new FormControl('Client');
+  manuel: FormControl = new FormControl('client');
+  statut: FormControl = new FormControl('en attente');
 
-  constructor(private formService : FormService,private router : Router,  private activateRoute: ActivatedRoute) { }
+  constructor(
+    private formService: FormService,
+    private router: Router,
+    private activateRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
-    this.formService.listDepatemtent().subscribe(res=>{
-      this.departements = res as Departement []
-    })
+    this.formService.listDepatemtent().subscribe((res) => {
+      this.departements = res as Departement[];
+    });
   }
 
   createForm() {
     this.myForm = new FormGroup({
       sujet: this.sujet,
-      departement : this.departement ,
+      departement: this.departement,
       emailClient: this.emailClient,
       nomClient: this.nomClient,
       tel: this.tel,
       description: this.description,
       manuel: this.manuel,
+      statut: this.statut,
       siteWeb: this.siteWeb,
-      adresse: this.adresse
+      adresse: this.adresse,
     });
   }
 
@@ -89,9 +94,8 @@ export class FormComponent implements OnInit {
           formC.setErrors(null);
         }
       });
+      this.manuel.setValue('client');
+      this.statut.setValue('en attente');
     });
   }
-
-
-
 }
