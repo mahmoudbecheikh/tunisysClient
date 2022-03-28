@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ticket } from 'src/models/ticket';
@@ -20,5 +20,11 @@ export class FormService {
   listDepatemtent():Observable<any>{
     return this.http.get('http://localhost:3000/departements');
   }
+
+  uploadFiles(data:any){
+    return this.http.post('http://localhost:3000/multiplefiles',data) ;
+}
+
+
 
 }

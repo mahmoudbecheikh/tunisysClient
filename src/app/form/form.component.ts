@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Departement } from 'src/models/departement';
 import { FormService } from '../services/form.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-form',
@@ -12,6 +13,9 @@ import { FormService } from '../services/form.service';
 export class FormComponent implements OnInit {
   departements: Departement[] = [];
   myForm: FormGroup = new FormGroup({});
+
+  attachmentList:any = [];
+
 
   sujet: FormControl = new FormControl('', [
     Validators.required,
@@ -57,6 +61,8 @@ export class FormComponent implements OnInit {
   manuel: FormControl = new FormControl('client');
   statut: FormControl = new FormControl('en attente');
 
+  formdata = new FormData();
+
   constructor(
     private formService: FormService,
     private router: Router,
@@ -85,17 +91,40 @@ export class FormComponent implements OnInit {
     });
   }
 
-  envoyer() {
+  // envoyer() {
+  //   this.formService.addTicket(this.myForm.value).subscribe((res) => {
+  //     Object.keys(this.myForm.controls).forEach((key) => {
+  //       let formC = this.myForm.get(key);
+  //       if (formC) {
+  //         formC.setValue('');
+  //         formC.setErrors(null);
+  //       }
+  //     });
+  //     this.manuel.setValue('client');
+  //     this.statut.setValue('en attente');
+  //   });
+  // }
+
+  uploadMultiple(event: any) {
+    const files: FileList = event.target.files;
+    for (let index = 0; index < files.length; index++) {
+      const element = files[index];
+      this.formdata.append('files', element);
+      this.attachmentList.push(element.name)
+    }
+  }
+
+  ajouter() {
     this.formService.addTicket(this.myForm.value).subscribe((res) => {
-      Object.keys(this.myForm.controls).forEach((key) => {
-        let formC = this.myForm.get(key);
-        if (formC) {
-          formC.setValue('');
-          formC.setErrors(null);
-        }
-      });
-      this.manuel.setValue('client');
-      this.statut.setValue('en attente');
+      if (res) {
+        this.formdata.append('id', res._id);
+        this.formService.uploadFiles(this.formdata).subscribe((res) => {
+          console.log(res)
+         
+        });
+      }
+      this.myForm.reset()
+      this.attachmentList=[]
     });
   }
 }
