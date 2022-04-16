@@ -65,8 +65,6 @@ export class FormComponent implements OnInit {
 
   constructor(
     private formService: FormService,
-    private router: Router,
-    private activateRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

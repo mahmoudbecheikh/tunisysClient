@@ -1,0 +1,42 @@
+ngb-rating {
+    color: #21618C;
+    font-size: 50px;
+}
+
+
+
+form {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    margin: 15px auto;
+    padding: 25px;
+    width: 50%;
+}
+
+.valid {
+    color: #4BCA81;
+    font-size: 20px;
+}
+
+.invalid {
+    color: #d6033f;
+    font-size: 20px;
+}
+
+textarea {
+    margin: 10px auto;
+}
+
+textarea:focus{
+    box-shadow: none;
+
+}
+
+i{
+    font-size: 50px;
+    font-weight: 500;
+
+}
+.expire{
+    margin-top: 250px;
+    text-align: center;
+}

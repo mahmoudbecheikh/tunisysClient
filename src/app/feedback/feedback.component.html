@@ -1,0 +1,34 @@
+<div class="container" *ngIf="success;else notyet">
+    <div class="expire">
+        <h3>Chers client merci pour votre évaluation. <br>
+            Nous étions heureux de vous avoir!     
+        </h3>
+        <i class="lni lni-happy"></i>
+        </div>
+</div>
+<ng-template #notyet>
+    <div class="div" *ngIf="valid;else invalid">
+        <div class="text-center">
+            <img src="../../assets/images/partenaire_logo_unisys-removebg-preview.png">
+        </div>
+        <form [formGroup]="myForm" (ngSubmit)="envoyer()" class="text-center">
+            <ngb-rating [max]="5" [formControl]="note"></ngb-rating>
+            <div class="form-text small">
+                <p *ngIf="note.valid" class="valid">Merci!</p>
+                <p *ngIf="note.invalid" class="invalid">Veuillez nous évaluer</p>
+            </div>
+            <textarea type="text" formControlName="commentaire" placeholder="Commentaire " class="form-control"
+                name="commentaire" id="commentaire" rows="4"> </textarea>
+            <input class="btn btn-primary" [disabled]="myForm.invalid" style="margin: 25px auto;width: 15%;"
+                value="Envoyer" type="submit" />
+
+        </form>
+    </div>
+    <ng-template #invalid>
+        <div class="expire">
+            <h3>Le lien que vous avez suivi a expiré ou invalide</h3>
+            <i class="lni lni-sad"></i>
+        </div>
+
+    </ng-template>
+</ng-template>

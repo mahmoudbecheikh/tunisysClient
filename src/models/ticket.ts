@@ -7,6 +7,8 @@ export class Ticket {
     tel?: number;
     adresse?: string;
     siteWeb?: string;
+    avisJeton? :string ;
+    avisJetonExp? :number
 
 }
 
