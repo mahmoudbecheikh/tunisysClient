@@ -14,29 +14,27 @@ export class FormComponent implements OnInit {
   departements: Departement[] = [];
   myForm: FormGroup = new FormGroup({});
 
-  attachmentList:any = [];
-
+  attachmentList: any = [];
 
   sujet: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
-    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
+    Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
   ]);
   departement: FormControl = new FormControl('', Validators.required);
   description: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(15),
-    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
   ]);
 
   emailClient: FormControl = new FormControl('', [
     Validators.required,
-    Validators.pattern('.*com$'),
+    Validators.email,
   ]);
   nomClient: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
-    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
+    Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
   ]);
 
   tel: FormControl = new FormControl('', [
@@ -49,13 +47,13 @@ export class FormComponent implements OnInit {
   siteWeb: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
-    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
+    Validators.pattern('(www)\\.([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
   ]);
 
   adresse: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
-    Validators.pattern("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)"),
+    Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
   ]);
 
   manuel: FormControl = new FormControl('client');
@@ -63,9 +61,7 @@ export class FormComponent implements OnInit {
 
   formdata = new FormData();
 
-  constructor(
-    private formService: FormService,
-  ) {}
+  constructor(private formService: FormService) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -108,7 +104,7 @@ export class FormComponent implements OnInit {
     for (let index = 0; index < files.length; index++) {
       const element = files[index];
       this.formdata.append('files', element);
-      this.attachmentList.push(element.name)
+      this.attachmentList.push(element.name);
     }
   }
 
@@ -117,12 +113,11 @@ export class FormComponent implements OnInit {
       if (res) {
         this.formdata.append('id', res._id);
         this.formService.uploadFiles(this.formdata).subscribe((res) => {
-          console.log(res)
-         
+          console.log(res);
         });
       }
-      this.myForm.reset()
-      this.attachmentList=[]
+      this.myForm.reset();
+      this.attachmentList = [];
     });
   }
 }
