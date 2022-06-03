@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Departement } from 'src/models/departement';
 import { FormService } from '../services/form.service';
 import { saveAs } from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form',
@@ -21,47 +22,43 @@ export class FormComponent implements OnInit {
     Validators.minLength(6),
     Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
   ]);
-  departement: FormControl = new FormControl('', Validators.required);
   description: FormControl = new FormControl('', [
     Validators.required,
-    Validators.minLength(15),
+    Validators.minLength(10),
   ]);
-
   emailClient: FormControl = new FormControl('', [
     Validators.required,
     Validators.email,
   ]);
   nomClient: FormControl = new FormControl('', [
     Validators.required,
-    Validators.minLength(6),
+    Validators.minLength(3),
     Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
   ]);
-
-  tel: FormControl = new FormControl('', [
-    Validators.required,
-    Validators.minLength(8),
-    Validators.maxLength(8),
-    Validators.pattern('^[234579][0-9]*$'),
-  ]);
-
-  siteWeb: FormControl = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6),
-    Validators.pattern('(www)\\.([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
-  ]);
-
   adresse: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
     Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
   ]);
-
-  manuel: FormControl = new FormControl('client');
-  statut: FormControl = new FormControl('en attente');
+  siteWeb: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.pattern('(www)\\.([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
+  ]);
+  telClient: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(8),
+    Validators.pattern('^[234579][0-9]*$'),
+  ]);
+  departement: FormControl = new FormControl('', Validators.required);
 
   formdata = new FormData();
 
-  constructor(private formService: FormService) {}
+  constructor(
+    private formService: FormService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -76,10 +73,8 @@ export class FormComponent implements OnInit {
       departement: this.departement,
       emailClient: this.emailClient,
       nomClient: this.nomClient,
-      tel: this.tel,
+      telClient: this.telClient,
       description: this.description,
-      manuel: this.manuel,
-      statut: this.statut,
       siteWeb: this.siteWeb,
       adresse: this.adresse,
     });
@@ -103,21 +98,36 @@ export class FormComponent implements OnInit {
     const files: FileList = event.target.files;
     for (let index = 0; index < files.length; index++) {
       const element = files[index];
-      this.formdata.append('files', element);
-      this.attachmentList.push(element.name);
+      this.attachmentList.push(element);
     }
   }
 
   ajouter() {
-    this.formService.addTicket(this.myForm.value).subscribe((res) => {
+    this.formdata.append('sujet', this.sujet.value);
+    this.formdata.append('departement', this.departement.value);
+    this.formdata.append('emailClient', this.emailClient.value);
+    this.formdata.append('nomClient', this.nomClient.value);
+    this.formdata.append('telClient', this.telClient.value);
+    this.formdata.append('description', this.description.value);
+    this.formdata.append('siteWeb', this.siteWeb.value);
+    this.formdata.append('adresse', this.adresse.value);
+    this.formdata.append('statut', 'en attente');
+    this.formdata.append('manuel', 'client');
+    for (const file of this.attachmentList) {
+      this.formdata.append('files', file);
+    }
+
+    this.formService.ajouterTicket(this.formdata).subscribe((res) => {
       if (res) {
-        this.formdata.append('id', res._id);
-        this.formService.uploadFiles(this.formdata).subscribe((res) => {
-          console.log(res);
-        });
+        this.toastr.success('', 'Ticket ajouté avec succès!');
       }
-      this.myForm.reset();
-      this.attachmentList = [];
     });
+    this.myForm.reset();
+    this.formdata = new FormData();
+    this.attachmentList = [];
+  }
+
+  deleteFile(i: any) {
+    this.attachmentList.splice(i, 1);
   }
 }

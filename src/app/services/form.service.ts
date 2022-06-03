@@ -11,7 +11,7 @@ export class FormService {
 
   readonly baseURL = 'http://localhost:3000/tickets';
 
-  addTicket(ticket: Ticket): Observable<any> {
+  ajouterTicket(ticket: any): Observable<any> {
     return this.http.post('http://localhost:3000/tickets', ticket);
   }
 

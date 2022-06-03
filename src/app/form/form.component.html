@@ -2,105 +2,114 @@
 
 <div class="container">
     <div class="row">
-
         <div class="col-md-4 form">
-            Des solutions en Technologie de l’Information Innovantes & Adaptées pour votre entreprise
-            Contactez nos experts
-
-            Vous êtes intéressé par nos solutions IT et vous avez besoin de précisions? Nous prendrons rapidement
+            Des solutions en Technologie de l’Information Innovantes & Adaptées pour
+            votre entreprise Contactez nos experts Vous êtes intéressé par nos
+            solutions IT et vous avez besoin de précisions? Nous prendrons rapidement
             contact avec vous pour vous proposer le service le mieux adapté.
         </div>
 
         <div class="col-md-8">
-
-
-
             <form [formGroup]="myForm" (ngSubmit)="ajouter()">
                 <div class="row">
-
                     <div class="form-group">
                         <select class="form-control" formControlName="departement">
-                            <option value="" disabled hidden selected>Sélectionnez un departement</option>
-                            <option *ngFor="let dep of departements" value="{{dep._id}}">{{dep.nom}}</option>
+                            <option value="" disabled hidden selected>
+                                Sélectionnez type de service demandé
+                            </option>
+                            <option *ngFor="let dep of departements" value="{{ dep._id }}">
+                                {{ dep.nom }}
+                            </option>
                         </select>
-                        <small *ngIf=" departement.invalid && departement.touched && departement.dirty">Rôle
-                            incorrect</small>
+                        <small><span *ngIf="departement.invalid && departement.touched && departement.dirty">Veuillez
+                                sélectionner le type de service désiré</span></small>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <input type="text" formControlName="sujet" placeholder="sujet *" class="col-md form-control"
-                                name="sujet" id="sujet">
-                            <small *ngIf=" sujet.invalid && sujet.touched && sujet.dirty">sujet incorrect</small>
+                                name="sujet" id="sujet" />
+
+                            <small><span *ngIf="sujet.invalid && sujet.touched && sujet.dirty">Veuilez remplir
+                                    soigneusement le sujet d'intervention</span></small>
+
                         </div>
 
                         <div class="form-group">
                             <input type="text" formControlName="nomClient" placeholder="Nom complet *"
-                                class="form-control" name="nomClient" id="nomClient">
-                            <small *ngIf=" nomClient.invalid && nomClient.touched && nomClient.dirty">Nom
-                                complet
-                                incorrect</small>
+                                class="form-control" name="nomClient" id="nomClient" />
+                            <small>
+                                <span *ngIf="nomClient.invalid && nomClient.touched && nomClient.dirty">le champs nom ne
+                                    doit contenir que des lettres</span>
+                            </small>
                         </div>
                         <div class="form-group">
                             <input type="text" formControlName="siteWeb" placeholder="siteWeb *" class="form-control"
                                 name="siteWeb" id="siteWeb" />
-                            <small *ngIf=" siteWeb.invalid && siteWeb.touched && siteWeb.dirty">Site Web
-                                incorrect</small>
-                        </div>
+                            <small> <span *ngIf="siteWeb.invalid && siteWeb.touched && siteWeb.dirty">Veuillez entrer un
+                                    lien
+                                    valide de votre site</span></small>
 
+                        </div>
                     </div>
-                    <div class="col-md-4 col-left">
+                    <div class="col-md-6 col-left">
                         <div class="form-group">
                             <input type="email" formControlName="emailClient" placeholder="Email *" class="form-control"
-                                name="emailClient" id="email">
-                            <small *ngIf=" emailClient.invalid && emailClient.touched && emailClient.dirty">Email
-                                incorrect</small>
+                                name="emailClient" id="email" />
+                            <small> <span *ngIf="emailClient.invalid && emailClient.touched &&emailClient.dirty">
+                                    Veuillez
+                                    entrer une adresse e-mail valide</span></small>
+
                         </div>
                         <div class="form-group">
-                            <input type="text" formControlName="tel" placeholder="Tel *" class="form-control" name="tel"
-                                id="tel">
-                            <small *ngIf=" tel.invalid && tel.touched && tel.dirty">Tel incorrect</small>
+                            <input type="text" formControlName="telClient" placeholder="Tel *" class="form-control"
+                                name="tel" id="tel" />
+
+                            <small> <span *ngIf="telClient.invalid && telClient.touched && telClient.dirty">Veuillez
+                                    entrer un
+                                    numero de téléphone valide</span></small>
                         </div>
 
                         <div class="form-group">
                             <input type="text" formControlName="adresse" placeholder="adresse " class="form-control"
                                 name="adresse" id="adresse" />
-                            <small *ngIf=" adresse.invalid && adresse.touched && adresse.dirty">Adresse
-                                incorrect</small>
+
+                            <small> <span *ngIf="adresse.invalid && adresse.touched && adresse.dirty">Veuillez entrer
+                                    une
+                                    adresse valide</span></small>
                         </div>
                     </div>
                     <div class="form-group">
                         <textarea type="text" formControlName="description" placeholder="description *"
-                            class="form-control" name="description" id="description"> </textarea>
-                        <small *ngIf=" description.invalid && description.touched && description.dirty">Description
-                            incorrect</small>
+                            class="form-control" name="description" id="description">
+            </textarea>
+                        <small> <span *ngIf="description.invalid && description.touched && description.dirty">Veuiller
+                                remplir soigneusemnt le champs description</span>
+                        </small>
                     </div>
 
-
-                    <div class="form-group" style="width: 65%;" >
+                    <div class="form-group">
                         <div class="upload">
-                            <label for="file" style="text-align: center; cursor: pointer;">
-                                <p style="color: grey;margin-top: 15px;">
-                                    Déposer des fichier
-                                </p>
-                                <i style="font-size:50px;" class="lni lni-cloud-upload"></i>
+                            <label for="file" style="text-align: center; cursor: pointer">
+                                <p style="color: grey; margin-top: 15px">Déposer des fichier</p>
+                                <i style="font-size: 50px" class="lni lni-cloud-upload"></i>
                             </label>
                             <input type="file" name="file" multiple id="file" (change)="uploadMultiple($event)"
-                                style="visibility: hidden;display: none;">
-            
+                                style="visibility: hidden; display: none" />
+
                             <div class="row files">
-                                <div class="col-sm-2 file" *ngFor="let file of attachmentList">
-                                    <img src="../../assets/images/file.png">
-                                    <p style="word-wrap: break-word">{{file}}</p>
+                                <div class="col-sm-2 file" *ngFor="let file of attachmentList;let index = index">
+                                    <img src="../../assets/images/file.png" />
+                                    <i (click)="deleteFile(index)" class="lni lni-close"></i>
+
+                                    <p style="word-wrap: break-word">{{ file.name }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="form-group">
+                    <div class="form-group text-center" >
                         <input class="btn btn-dark" [disabled]="myForm.invalid" value="Envoyer" type="submit" />
                     </div>
-
                 </div>
             </form>
         </div>
