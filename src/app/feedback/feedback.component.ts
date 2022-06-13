@@ -23,8 +23,6 @@ export class FeedbackComponent implements OnInit {
     this.token = this.activatedRoute.snapshot.params['token'];
     this.formService.afficherParJeton(this.token).subscribe((res) => {
       if (res) {
-        console.log(res);
-        console.log(res.jetonUtilise);
         if (res?.jetonUtilise) this.valid = false;
       } else {
         this.valid = false;
