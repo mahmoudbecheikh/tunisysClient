@@ -14,9 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 export class FormComponent implements OnInit {
   departements: Departement[] = [];
   myForm: FormGroup = new FormGroup({});
-
   attachmentList: any = [];
-
+  formdata = new FormData();
   sujet: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
@@ -53,7 +52,6 @@ export class FormComponent implements OnInit {
   ]);
   departement: FormControl = new FormControl('', Validators.required);
 
-  formdata = new FormData();
 
   constructor(
     private formService: FormService,
@@ -80,19 +78,7 @@ export class FormComponent implements OnInit {
     });
   }
 
-  // envoyer() {
-  //   this.formService.addTicket(this.myForm.value).subscribe((res) => {
-  //     Object.keys(this.myForm.controls).forEach((key) => {
-  //       let formC = this.myForm.get(key);
-  //       if (formC) {
-  //         formC.setValue('');
-  //         formC.setErrors(null);
-  //       }
-  //     });
-  //     this.manuel.setValue('client');
-  //     this.statut.setValue('en attente');
-  //   });
-  // }
+
 
   uploadMultiple(event: any) {
     const files: FileList = event.target.files;
@@ -127,7 +113,7 @@ export class FormComponent implements OnInit {
     this.attachmentList = [];
   }
 
-  deleteFile(i: any) {
+  deleteFile(i: number) {
     this.attachmentList.splice(i, 1);
   }
 }
