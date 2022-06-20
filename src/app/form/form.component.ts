@@ -19,7 +19,7 @@ export class FormComponent implements OnInit {
   sujet: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
-    Validators.pattern('[a-zA-ZÀ-ÿ ]*'),
+    Validators.pattern("^[a-zA-ZÀ-ÿ\/\' ]+[a-zA-ZÀ-ÿ]$"),
   ]);
   description: FormControl = new FormControl('', [
     Validators.required,
